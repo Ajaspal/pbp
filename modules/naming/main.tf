@@ -6,9 +6,7 @@ resource "random_string" "service" {
 }
 
 locals {
-  service_name = var.service_name == null ? random_string.service.result : var.service_name
-}
-locals {
+  service_name = var.service_name == "" ? random_string.service.result : var.service_name == null ? random_string.service.result : var.service_name
   full_name = var.environment == null ? substr(join("-", ["pbp", var.domain, local.service_name]), 0, 50) : substr(join("-", ["pbp", var.domain, local.service_name, var.environment]), 0, 50)
   default_tags = {
     Name         = var.environment == null ? substr(join("-", ["pbp", var.domain, local.service_name]), 0, 50) : substr(join("-", ["pbp", var.domain, local.service_name, var.environment]), 0, 50)
